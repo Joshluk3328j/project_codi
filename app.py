@@ -1,19 +1,20 @@
 import streamlit as st
 from modules import code_parser, explainer, voice_engine, ide_connector, history_manager
 
-st.set_page_config(page_title="Programmer's Assistant", layout="wide")
+st.set_page_config(page_title="Codi", layout="wide")
 
 st.title("Voice-Activated Programmer's Assistant")
 
 # Sidebar controls
 st.sidebar.title("Assistant Settings")
-voice_enabled = st.sidebar.toggle("Voice Activation", value=True)
+voice_assistant_enabled = st.sidebar.toggle("Voice Assistant", value=True)
+voice_activation_enabled = st.sidebar.toggle("Voice Activation", value=True)
 ide_enabled = st.sidebar.toggle("IDE Integration", value=False)
 voice_gender = st.sidebar.radio("Voice Type", ["Neutral", "Male", "Female"])
 
 # Store settings
 settings = {
-    "voice_enabled": voice_enabled,
+    "voice_activation_enabled": voice_activation_enabled,
     "ide_enabled": ide_enabled,
     "voice_gender": voice_gender
 }
@@ -33,7 +34,7 @@ if uploaded_file:
         st.subheader(f"Block {i+1}")
         explanation = explainer.explain_block(block)
         st.write(explanation)
-        if voice_enabled:
+        if voice_activation_enabled:
             voice_engine.speak(explanation, gender=voice_gender)
 
 # Chat section
@@ -42,7 +43,7 @@ user_input = st.text_input("Ask a question...")
 if user_input:
     response = explainer.answer_question(user_input)
     st.write(response)
-    if voice_enabled:
+    if voice_activation_enabled:
         voice_engine.speak(response, gender=voice_gender)
 
 # History display (placeholder)

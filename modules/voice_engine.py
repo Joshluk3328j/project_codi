@@ -2,7 +2,7 @@ import pyttsx3
 
 engine = pyttsx3.init()
 
-def speak(text: str, gender: str = "Neutral"):
+def speak(text: str, gender: str = "Neutral") -> None:
     voices = engine.getProperty('voices')
     # Select voice (basic logic, system-dependent)
     if gender == "Male":
