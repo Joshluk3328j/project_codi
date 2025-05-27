@@ -3,7 +3,7 @@ import pyttsx3
 engine = pyttsx3.init()
 # seting engine as our variable
 
-engine.setProperty('rate', 200)# Speaking rate (the speed the engine speaks the words)
+engine.setProperty('rate', 150)# Speaking rate (the speed the engine speaks the words)
 engine.setProperty('volume', 1.0)# Sets the volume (0.0(silent) to 1.0(loudest))
 
 def speak(text: str, gender: str = "Neutral"):
@@ -17,4 +17,6 @@ def speak(text: str, gender: str = "Neutral"):
         engine.setProperty('voice', voices[0].id)
     engine.say(text)
     engine.runAndWait()
+
+
 
