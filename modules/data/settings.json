@@ -1,0 +1,6 @@
+{
+  "voice_assistant": false,
+  "voice_activation": true,
+  "voice_gender": "Male",
+  "explanation_style": "in-depth"
+}

@@ -1,50 +1,108 @@
 import streamlit as st
-from modules import code_parser, explainer, voice_engine, ide_connector, history_manager
+from modules.audio_bar import display_audio_bar
+import base64
+from modules import settings_manager, voice_assistant
 
-st.set_page_config(page_title="Programmer's Assistant", layout="wide")
 
-st.title("Voice-Activated Programmer's Assistant")
 
-# Sidebar controls
-st.sidebar.title("Assistant Settings")
-voice_enabled = st.sidebar.toggle("Voice Activation", value=True)
-ide_enabled = st.sidebar.toggle("IDE Integration", value=False)
-voice_gender = st.sidebar.radio("Voice Type", ["Neutral", "Male", "Female"])
+# --------------------- Page Config --------------------- #
+st.set_page_config(page_title="project_Codi", layout="wide")
+# st.title("👩‍💻 Codi")
+st.markdown("<h1 style='text-align: center;'>👩‍💻 Codi</h1>", unsafe_allow_html=True)
 
-# Store settings
-settings = {
-    "voice_enabled": voice_enabled,
-    "ide_enabled": ide_enabled,
-    "voice_gender": voice_gender
-}
-# Save settings
-# (TODO: Write to settings.json if needed)
+tabs = st.tabs(["📘 file upload", "💬 Chat", "🕘 History"])
 
-# Code upload section
-st.header("Upload Your Code")
-uploaded_file = st.file_uploader("Choose a Python file", type="py")
+audio_file_url = "./modules/data/audio/test.mp3"
 
-if uploaded_file:
-    code = uploaded_file.read().decode("utf-8")
-    st.code(code, language='python')
+# --------------------- Initialize Settings --------------------- #
+if "settings_loaded" not in st.session_state:
+    loaded_settings = settings_manager.load_settings()
+    if loaded_settings:
+        for key, value in loaded_settings.items():
+            st.session_state[key] = value
+        st.session_state.settings_loaded = True
 
-    blocks = code_parser.split_into_blocks(code)
-    for i, block in enumerate(blocks):
-        st.subheader(f"Block {i+1}")
-        explanation = explainer.explain_block(block)
-        st.write(explanation)
-        if voice_enabled:
-            voice_engine.speak(explanation, gender=voice_gender)
 
-# Chat section
-st.header("Chat with Assistant")
-user_input = st.text_input("Ask a question...")
-if user_input:
-    response = explainer.answer_question(user_input)
-    st.write(response)
-    if voice_enabled:
-        voice_engine.speak(response, gender=voice_gender)
+# --------------------- Sidebar --------------------- #
+st.sidebar.header("⚙️ Settings")
 
-# History display (placeholder)
-st.sidebar.title("History")
-st.sidebar.info("Coming soon: browse past uploads and conversations.")
+# Toggles with tracked updates
+va_toggle = st.sidebar.toggle("🎙️ Enable Voice Assistant", st.session_state.voice_assistant)
+if va_toggle != st.session_state.voice_assistant:
+    st.session_state.voice_assistant = va_toggle
+
+va_toggle = st.sidebar.toggle("🧠 Voice Activation (e.g., 'Hey Codi')", value=st.session_state.get("voice_activation", False))
+if va_toggle != st.session_state.get("voice_activation", False):
+    st.session_state.voice_activation = va_toggle
+
+
+st.session_state.voice_gender = st.sidebar.selectbox("Assistant Voice Gender", ["Neutral", "Female", "Male"], index=["Neutral", "Female", "Male"].index(st.session_state.voice_gender))
+# ide_enabled = st.sidebar.checkbox("Enable IDE Integration", value=False)
+
+# Explanation style buttons
+st.sidebar.header("📖 Explanation Style")
+if st.sidebar.button("Reiterate"):
+    st.session_state.explanation_style = "Reiterate"
+if st.sidebar.button("Concise"):
+    st.session_state.explanation_style = "concise"
+if st.sidebar.button("In-Depth"):
+    st.session_state.explanation_style = "in-depth"
+st.sidebar.write(f"Current Style: {st.session_state.explanation_style.capitalize()}")
+
+# Save button
+if st.sidebar.button("💾 Save Settings"):
+    settings_to_save = {
+        "voice_assistant": st.session_state.voice_assistant,
+        "voice_activation": st.session_state.voice_activation,
+        "voice_gender": st.session_state.voice_gender,
+        "explanation_style": st.session_state.explanation_style,
+    }
+    settings_manager.save_settings(settings_to_save)
+    st.sidebar.success("Settings saved!")
+
+# --------------------- Explanation UI --------------------- #
+# Collapsible explanation display
+def display_explanation(explanation_txt):
+    with st.expander("📘 View Explanation", expanded=True):
+        st.text_area("Explanation", explanation_txt, height=200, disabled=True, label_visibility="collapsed")
+        b64 = base64.b64encode(explanation_txt.encode()).decode()
+        href = f'<a href="data:file/txt;base64,{b64}" download="explanation.txt">📄 Download as .txt</a>'
+        st.markdown(href, unsafe_allow_html=True)
+
+# --------------------- Main Tabs --------------------- #
+with tabs[0]:
+    st.header("Upload Your File")
+    left_col, mid_col, right_col = st.columns([2, 0.5, 2])
+
+    with left_col:
+        uploaded_file = st.file_uploader(label="Upload a python file", type="py")
+        has_uploaded = uploaded_file is not None
+        if has_uploaded:
+            uploaded_code = uploaded_file.read().decode("utf-8")
+            st.code(uploaded_code, language="python", height=415)
+
+    with right_col:
+        if has_uploaded:
+            explanation = uploaded_code
+            display_explanation(explanation)
+            if st.session_state.voice_assistant:
+                engine = voice_assistant.get_voice_by_gender(st.session_state.voice_gender)
+                voice_assistant.save_audio(explanation,engine)
+                display_audio_bar(audio_file_url)
+                
+        else:
+            st.subheader("Explanation")
+            st.info("Upload a file to see the explanation here.")
+
+    st.subheader("Have a question?")
+    st.text_area(label="Enter your question here", height=100)
+
+with tabs[1]:
+    st.header("💬 Chat with Codi")
+    st.info("this feature is coming soon")
+
+with tabs[2]:
+    st.header("💬 Chat with Codi")
+    st.info("this feature is coming soon")
+    history_tabs = st.selectbox("View Your History", ["Uploads","Explanation","Chat"])
+    st.info("This feature will soon arrive")
