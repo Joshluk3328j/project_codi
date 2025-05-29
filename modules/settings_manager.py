@@ -4,7 +4,7 @@ import json
 
 # --------------------- Settings File I/O --------------------- #
 
-SETTINGS_PATH = os.path.expanduser("./data/settings.json")
+SETTINGS_PATH = os.path.expanduser(".modules/data/settings.json")
 
 def load_settings():
     if os.path.exists(SETTINGS_PATH):

@@ -1,9 +1,13 @@
 import streamlit as st
 from modules.audio_bar import display_audio_bar
 import base64
-from modules import settings_manager, voice_assistant
+from modules import settings_manager, voice_assistant, explainer
+from dotenv import load_dotenv
+import os
 
+load_dotenv("codi.env")  # specify the custom filename
 
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 # --------------------- Page Config --------------------- #
 st.set_page_config(page_title="project_Codi", layout="wide")
@@ -31,9 +35,9 @@ va_toggle = st.sidebar.toggle("🎙️ Enable Voice Assistant", st.session_state
 if va_toggle != st.session_state.voice_assistant:
     st.session_state.voice_assistant = va_toggle
 
-va_toggle = st.sidebar.toggle("🧠 Voice Activation (e.g., 'Hey Codi')", value=st.session_state.get("voice_activation", False))
-if va_toggle != st.session_state.get("voice_activation", False):
-    st.session_state.voice_activation = va_toggle
+va_activation_toggle = st.sidebar.toggle("🧠 Voice Activation (e.g., 'Hey Codi')", value=st.session_state.get("voice_activation", False))
+if va_activation_toggle != st.session_state.get("voice_activation", False):
+    st.session_state.voice_activation = va_activation_toggle
 
 
 st.session_state.voice_gender = st.sidebar.selectbox("Assistant Voice Gender", ["Neutral", "Female", "Male"], index=["Neutral", "Female", "Male"].index(st.session_state.voice_gender))
@@ -83,7 +87,7 @@ with tabs[0]:
 
     with right_col:
         if has_uploaded:
-            explanation = uploaded_code
+            explanation = explainer.query_huggingface(uploaded_code,HF_TOKEN)
             display_explanation(explanation)
             if st.session_state.voice_assistant:
                 engine = voice_assistant.get_voice_by_gender(st.session_state.voice_gender)

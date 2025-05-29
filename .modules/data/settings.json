@@ -1,0 +1,6 @@
+{
+  "voice_assistant": true,
+  "voice_activation": false,
+  "voice_gender": "Neutral",
+  "explanation_style": "concise"
+}
