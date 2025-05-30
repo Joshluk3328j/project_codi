@@ -16,7 +16,7 @@ def load_settings():
     st.session_state.setdefault("voice_assistant", False)
     st.session_state.setdefault('speech_state', "paused")
     st.session_state.setdefault('current_block_index', 0)
-    st.session_state.setdefault('speech_rate', 200)
+    st.session_state.setdefault('speech_rate', 165)
     st.session_state.setdefault('voice_activation', False)
     st.session_state.setdefault('voice_gender', "Neutral")
     # st.session_state.setdefault('enable_ide_integration', False)

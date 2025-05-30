@@ -1,9 +1,15 @@
 import requests
 
-def query_huggingface(code: str, hf_token: str, style: str = "concise") -> str:
-    api_url = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"
-    # api_url = "https://api-inference.huggingface.co/models/google/flan-t5-base"
+# https://api-inference.huggingface.co/models/{model_id}
 
+
+def query_huggingface(code: str, hf_token: str, style: str = "concise") -> str:
+    print(hf_token)
+    api_url = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"
+    # api_url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct"
+    # api_url = "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct"
+    # api_url = "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-Coder-6.7B-instruct"
+    # api_url = "https://api-inference.huggingface.co/models/bigcode/starcoder2-3b"
     headers = {
         "Authorization": f"Bearer {hf_token}",
         "Content-Type": "application/json"
@@ -29,7 +35,7 @@ def query_huggingface(code: str, hf_token: str, style: str = "concise") -> str:
         }
     }
 
-    response = requests.post(api_url, headers=headers, json=payload)
+    response = requests.post(api_url, headers=headers, json=payload, timeout=40)
     response.raise_for_status()
 
     generated_text = response.json()[0]["generated_text"]

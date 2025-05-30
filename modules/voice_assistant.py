@@ -1,4 +1,5 @@
 import pyttsx3
+import os
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -36,6 +37,8 @@ def get_voice_by_gender(gender: str):
 # engine.say(f"This is the {gender_choice} voice speaking.")
 # engine.runAndWait()
 
-def save_audio(explanation:str, engine):
-    engine.save_to_file(explanation , './modules/data/audio/test.mp3')
+def save_audio(explanation: str, engine, output_path: str = './modules/data/audio/test.mp3') -> str:
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    engine.save_to_file(explanation, output_path)
     engine.runAndWait()
+    return output_path  # Return the path so the caller can use it for download links

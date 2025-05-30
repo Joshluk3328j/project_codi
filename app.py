@@ -1,9 +1,13 @@
 import streamlit as st
-from modules.audio_bar import display_audio_bar
 import base64
-from modules import settings_manager, voice_assistant, explainer
-from dotenv import load_dotenv
+import uuid
 import os
+from fpdf import FPDF
+from dotenv import load_dotenv
+from modules.audio_bar import display_audio_bar
+
+from modules import settings_manager, voice_assistant, explainer,history_manager
+
 
 load_dotenv("codi.env")  # specify the custom filename
 
@@ -26,6 +30,12 @@ if "settings_loaded" not in st.session_state:
             st.session_state[key] = value
         st.session_state.settings_loaded = True
 
+# Save upload to history if not already present
+if "upload_history" not in st.session_state:
+    st.session_state.upload_history = history_manager.load_history()
+# save explanation history
+if "explanation_history" not in st.session_state:
+    st.session_state.explanation_history = history_manager.load_explanation_history()
 
 # --------------------- Sidebar --------------------- #
 st.sidebar.header("⚙️ Settings")
@@ -84,14 +94,26 @@ with tabs[0]:
         if has_uploaded:
             uploaded_code = uploaded_file.read().decode("utf-8")
             st.code(uploaded_code, language="python", height=415)
-
+            new_entry = {
+                "filename": uploaded_file.name,
+                "content": uploaded_code,
+            }
+            st.session_state.upload_history.insert(0, new_entry)
+            history_manager.save_history(st.session_state.upload_history)
     with right_col:
         if has_uploaded:
+            # pass
             explanation = explainer.query_huggingface(uploaded_code,HF_TOKEN)
             display_explanation(explanation)
+            explanation_entry = {
+                "filename": uploaded_file.name,
+                "explanation": explanation
+            }
+            st.session_state.explanation_history.insert(0, explanation_entry)
+            history_manager.save_explanation_history(st.session_state.explanation_history)
             if st.session_state.voice_assistant:
                 engine = voice_assistant.get_voice_by_gender(st.session_state.voice_gender)
-                voice_assistant.save_audio(explanation,engine)
+                audio_path = voice_assistant.save_audio(explanation,engine)
                 display_audio_bar(audio_file_url)
                 
         else:
@@ -106,7 +128,79 @@ with tabs[1]:
     st.info("this feature is coming soon")
 
 with tabs[2]:
-    st.header("💬 Chat with Codi")
-    st.info("this feature is coming soon")
+    st.header("History")
     history_tabs = st.selectbox("View Your History", ["Uploads","Explanation","Chat"])
-    st.info("This feature will soon arrive")
+    if history_tabs == "Uploads":
+        st.header("📜 Upload History")
+
+        if "upload_history" not in st.session_state:
+            st.session_state.upload_history = []
+
+
+        if st.session_state.upload_history:
+            # Clear history button
+            if st.button("🗑️ Clear History"):
+                st.session_state.upload_history.clear()
+                history_manager.clear_history()
+                st.success("Upload history cleared.")
+            for idx, entry in enumerate(st.session_state.upload_history):
+                filename = entry["filename"]
+                code = entry["content"]
+
+                with st.expander(f"{filename}"):
+                    st.code(code, language="python", height=300)
+
+                    # Generate a PDF
+                    # .py download link
+                    b64_py = base64.b64encode(code.encode()).decode()
+                    py_href = f'<a href="data:file/python;base64,{b64_py}" download="{filename}">🐍 Download as .py</a>'
+                    st.markdown(py_href, unsafe_allow_html=True)
+        else:
+            st.info("No file uploads yet.")
+
+    if history_tabs == "Explanation":
+        st.header("🧠 Explanation History")
+
+        if st.session_state.explanation_history:
+            if st.button("🗑️ Clear Explanation History"):
+                st.session_state.explanation_history.clear()
+                history_manager.clear_explanation_history()
+                st.success("Explanation history cleared.")
+
+            for idx, entry in enumerate(st.session_state.explanation_history):
+                filename = entry["filename"]
+                explanation = entry["explanation"]
+
+                with st.expander(f"{filename}"):
+                    # Generate PDF
+                    pdf = FPDF()
+                    pdf.add_page()
+                    pdf.set_auto_page_break(auto=True, margin=15)
+                    pdf.set_font("Arial", size=12)
+                    for line in explanation.split('\n'):
+                        pdf.multi_cell(0, 10, txt=line)
+
+                    file_id = str(uuid.uuid4())
+                    pdf_path = f"./modules/data/expl_{file_id}.pdf"
+                    pdf.output(pdf_path)
+
+                    st.text_area("Explanation History", explanation, height=200, disabled=True, label_visibility="collapsed", key=f"explanation_{idx}")
+
+                    with open(pdf_path, "rb") as pdf_file:
+                        b64_pdf = base64.b64encode(pdf_file.read()).decode()
+                        href_pdf = f'<a href="data:application/pdf;base64,{b64_pdf}" download="{filename}_explanation.pdf">📄 Download as PDF</a>'
+                        st.markdown(href_pdf, unsafe_allow_html=True)
+
+                    # MP3
+                    audio_path = f"./modules/data/audio/{file_id}.mp3"
+                    engine = voice_assistant.get_voice_by_gender(st.session_state.voice_gender)
+                    voice_assistant.save_audio(explanation, engine, output_path=audio_path)
+
+                    with open(audio_path, "rb") as audio_file:
+                        b64_mp3 = base64.b64encode(audio_file.read()).decode()
+                        href_mp3 = f'<a href="data:audio/mp3;base64,{b64_mp3}" download="{filename}_explanation.mp3">🔊 Download MP3</a>'
+                        st.markdown(href_mp3, unsafe_allow_html=True)
+        else:
+            st.info("No explanations generated yet.")
+    else:
+        st.info("This feature will soon arrive")
