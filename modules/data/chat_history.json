@@ -1,0 +1,6 @@
+[
+  {
+    "question": "wassup",
+    "answer": "❌ Error fetching answer: 402 Client Error: Payment Required for url: https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"
+  }
+]

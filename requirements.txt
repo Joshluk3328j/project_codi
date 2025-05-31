@@ -1,9 +1,5 @@
-streamlit>=1.10.0
+streamlit
+fpdf
+python-dotenv
 pyttsx3
-vosk
-sounddevice
-torch
-transformers
-accelerate
-bitsandbytes
-huggingface_hub
+requests
