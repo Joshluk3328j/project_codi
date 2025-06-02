@@ -4,6 +4,10 @@
     "content": "birth_year=int(input(\"what year were you born?\"))\r\nage= 2025-birth_year\r\nprint(f\"you are {age} years old\")"
   },
   {
+    "filename": "age_guesser_40.py",
+    "content": "birth_year=int(input(\"what year were you born?\"))\r\nage= 2025-birth_year\r\nprint(f\"you are {age} years old\")"
+  },
+  {
     "filename": "gui_78.py",
     "content": "picture=[\r\n    [0,0,0,1,0,0,0],\r\n    [0,0,1,1,1,0,0],\r\n    [0,1,1,1,1,1,0],\r\n    [1,1,1,1,1,1,1],\r\n    [0,0,0,1,0,0,0],\r\n    [0,0,0,1,0,0,0]\r\n]\r\n\r\nfor row in picture:\r\n    for pixel in row:\r\n        if pixel:\r\n            print(\"*\", end=\"\")\r\n        else:\r\n            print(\" \",end=\"\")\r\n    print(\"\")"
   },

@@ -85,5 +85,11 @@ class HistoryManager:
         return []
 
     def clear_chat_history(self) -> None:
-        if os.path.exists(self.chat_history_path):
-            os.remove(self.chat_history_path)
+        # Clear explanation history JSON
+        with open(self.chat_history_path, "w", encoding="utf-8") as f:
+            json.dump([], f)
+
+        # Remove chats PDFs
+        for file in os.listdir(self.pdf_dir):
+            if file.startswith("chat_") and file.endswith(".pdf"):
+                os.remove(os.path.join(self.pdf_dir, file))

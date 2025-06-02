@@ -1,6 +1,10 @@
 [
   {
     "filename": "age_guesser_40.py",
+    "explanation": "This code asks the user to input their birth year, calculates their age by subtracting the birth year from 2025, and then prints out a message stating their age. However, there is a syntax error in the first line - a closing parenthesis is missing. Here is the corrected code:\n\nbirth_year = int(input(\"what year were you born?\u00a0\"))\nage = 2025 - birth_year\nprint(f\"you are {age} years old\")\n\nThe corrected code first prompts the user to enter their birth year using the input() function, which returns a string. The int() function is used to convert the string input into an integer, which is then stored in the variable birth_year. The age variable is calculated by subtracting birth_year from 2025. Finally, a formatted string is printed to the console using the f-string syntax, which displays the calculated age."
+  },
+  {
+    "filename": "age_guesser_40.py",
     "explanation": "\u274c Error explaining code: 402 Client Error: Payment Required for url: https://api-inference.huggingface.co/models/meta-llama/Llama-3.1-8B-Instruct"
   },
   {
