@@ -26,7 +26,7 @@ st.set_page_config(page_title="project_Codi", layout="wide")
 # st.title("👩‍💻 Codi")
 st.markdown("<h1 style='text-align: center;'>👩‍💻 Codi</h1>", unsafe_allow_html=True)
 
-tabs = st.tabs(["📘 file upload","🕘 History"])
+tabs = st.tabs(["📘 File upload","🕘 History"])
 
 # audio_file_url = "./modules/data/audio/test.mp3"
 
