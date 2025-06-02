@@ -13,7 +13,7 @@ from modules.history_manager import HistoryManager
 
 load_dotenv("codi.env")  # specify the custom filename
 
-HF_TOKEN = os.getenv("HF_TOKEN_1")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 settings_mgr = SettingsManager()
 voice_mgr = VoiceAssistant()
@@ -192,7 +192,7 @@ with tabs[0]:
             if "chat_history" not in st.session_state:
                 st.session_state.chat_history = []
 
-            st.session_state.chat_history.append({"question": question, "answer": answer})
+            st.session_state.chat_history.insert(0,{"question": question, "answer": answer})
             history_mgr.save_chat_history(st.session_state.chat_history)
 
 
@@ -278,7 +278,7 @@ with tabs[1]:
                 question = entry.get("question", "")
                 answer = entry.get("answer", "")
 
-                with st.expander(f"🗨️ Q{idx+1}: {question[:60]}..."):
+                with st.expander(f"🗨️ Q{len(st.session_state.chat_history)-(idx)}: {question[:60]}..."):
                     st.markdown(f"**Question:**\n{question}")
                     st.markdown(f"**Answer:**\n{answer}")
                     

@@ -1,5 +1,7 @@
 import requests
 
+"https://api-inference.huggingface.co/models/meta-llama/Llama-3.1-8B-Instruct"
+
 class CodeExplainer:
     def __init__(self, api_key: str, model_url: str = None):
         self.api_key = api_key
@@ -43,28 +45,37 @@ class CodeExplainer:
         if not question:
             return "❌ Please enter a question."
 
-        prompt = "You are Codi, an assistant that helps explain code and answer code-related questions.\n\n"
+        # prompt = "You are Codi, an assistant that helps explain code and answer code-related questions.\n\n"
+        chat_box = (
+            f"Question: {question} "
+            f"Only answer the question above. Do not answer or summarize anything else. "
+            f"Answer ({style} style):"
+        )
 
-        if uploaded_code:
-            prompt += f"Here is the uploaded code:\n```python\n{uploaded_code}\n```\n\n"
+        code_section = f"The code is:\n```python\n{uploaded_code}\n```" if uploaded_code else "just reply normally with the given style"
 
-        prompt += f"Question: {question}\nExplain in a {style} way."
+        prompt = (
+            "You are Codi, an assistant that helps explain code and answer code-related and regular questions. "
+            f"{code_section} {chat_box}"
+        )
 
         try:
             response = requests.post(
                 self.api_url,
                 headers=self.headers,
-                json={"inputs": prompt}
-            )
+                json={"inputs": prompt},
+                timeout=40)
             response.raise_for_status()
             result = response.json()
 
             if isinstance(result, list) and len(result) > 0 and "generated_text" in result[0]:
-                return result[0]["generated_text"]
+                full_response = result[0]["generated_text"]
             elif isinstance(result, dict) and "generated_text" in result:
-                return result["generated_text"]
+                full_response = result["generated_text"]
             else:
                 return "⚠️ Unexpected response format from API."
+            answer = full_response.replace(prompt,"").strip()
+            return answer
 
         except Exception as e:
             return f"❌ Error fetching answer: {str(e)}"

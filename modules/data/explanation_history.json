@@ -1,6 +1,18 @@
 [
   {
     "filename": "age_guesser_40.py",
-    "explanation": "\u274c Error explaining code: HTTPSConnectionPool(host='api-inference.huggingface.co', port=443): Max retries exceeded with url: /models/mistralai/Mixtral-8x7B-Instruct-v0.1 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000002B92A5809D0>: Failed to resolve 'api-inference.huggingface.co' ([Errno 11003] getaddrinfo failed)\"))"
+    "explanation": "\u274c Error explaining code: 402 Client Error: Payment Required for url: https://api-inference.huggingface.co/models/meta-llama/Llama-3.1-8B-Instruct"
+  },
+  {
+    "filename": "gui_78.py",
+    "explanation": "\u274c Error explaining code: HTTPSConnectionPool(host='api-inference.huggingface.co', port=443): Max retries exceeded with url: /models/mistralai/Mixtral-8x7B-Instruct-v0.1 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000001BC4A506020>: Failed to resolve 'api-inference.huggingface.co' ([Errno 11003] getaddrinfo failed)\"))"
+  },
+  {
+    "filename": "age_guesser_40.py",
+    "explanation": "This code is asking the user to input their birth year and then calculates their age by subtracting the birth year from the current year, 2025. The calculated age is then printed out. However, there is a syntax error in the code. The input function call is not closed properly with a parenthesis. Here's the corrected code:\n\nbirth_year = int(input(\"what year were you born? \"))\nage = 2025 - birth_year\nprint(f\"you are {age} years old\")\n\nIn this corrected code, the input function call is closed with a parenthesis, and the code should run without any errors."
+  },
+  {
+    "filename": "age_guesser_40.py",
+    "explanation": "\u274c Error explaining code: HTTPSConnectionPool(host='api-inference.huggingface.co', port=443): Max retries exceeded with url: /models/mistralai/Mixtral-8x7B-Instruct-v0.1 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000001BC4BBA7310>: Failed to resolve 'api-inference.huggingface.co' ([Errno 11003] getaddrinfo failed)\"))"
   }
 ]
