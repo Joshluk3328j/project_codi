@@ -1,3 +1,53 @@
+# 👩‍💻 Codi — Your AI-Powered Python Code Explainer
+
+Codi is an AI-powered Python code explainer designed to help developers, students, and educators understand Python code with ease. Upload `.py` files, get intelligent explanations, ask natural-language questions, and download your results as PDFs or MP3 audio — all within a clean Streamlit interface.
+
+---
+
+## 🚀 Features
+
+- 📂 **Upload Python Files**  
+  Easily upload `.py` files to analyze and visualize their content.
+
+- 🧠 **Smart Code Explanation**  
+  Uses Hugging Face’s **Mixtral** model to provide:
+  - Reiterative explanation
+  - Concise summary
+  - In-depth breakdowns
+
+- 💬 **Ask Questions About Code**  
+  Ask natural-language questions about your uploaded code and receive AI-generated answers.
+
+- 🗣️ **Voice Assistant**  
+  Let the app read out explanations using realistic text-to-speech, with gender options.
+
+- 📥 **Export Your Insights**  
+  Download explanations and chat interactions as:
+  - 📄 PDF
+  - 🔊 MP3 audio
+  - 📝 Text files
+
+- 🕘 **History Tracking**  
+  Access history of uploaded files, explanations, and Q&A chats. Revisit or download them anytime.
+
+---
+
+## 🧰 Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| **Streamlit** | UI & frontend framework |
+| **Hugging Face Transformers** | LLM-powered code interpretation |
+| **Mixtral (Mistral AI)** | Smart, multi-expert transformer model |
+| **FPDF** | PDF generation |
+| **pyttsx3** | Text-to-speech (offline) |
+| **dotenv** | API credentials management |
+
+---
+
+## 📸 Screenshots
+
+> You can add screenshots in a `/screenshots` folder and embed them like this:
 
 ---
 
@@ -34,13 +84,11 @@ streamlit run app.py
 
 ```
 codi/
-├── .env                     # Environment variables (if used)
 ├── codi.env                 # Custom environment config file
-├── main.py                  # Main Streamlit application
+├── app.py                  # Main Streamlit application
 ├── requirements.txt         # Python dependencies
 ├── README.md                # Project documentation
 ├── modules/                 # Modular logic
-│   ├── __init__.py
 │   ├── audio_bar.py         # Custom audio player for Streamlit
 │   ├── explainer.py         # Code explanation logic using HuggingFace API
 │   ├── history_manager.py   # Manages upload, explanation, and chat history
