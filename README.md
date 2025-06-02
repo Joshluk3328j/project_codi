@@ -47,8 +47,6 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 
 ## 📸 Screenshots
 
-> Screenshots are stored in the `/screenshots` folder and embedded below:
-
 ### File Upload
 ![File Upload](./assets/file_upload.png)
 
