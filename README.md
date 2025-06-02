@@ -48,10 +48,10 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 ## 📸 Screenshots
 
 ### File Upload
-![File Upload](./assets/file_upload.png)
+![File Upload](./Assets/file_upload.png)
 
 ### History
-![History](./assets/history.png)
+![History](./Assets/history.png)
 
 ---
 
