@@ -34,7 +34,7 @@ streamlit run app.py
 
 ```
 codi/
-├── .env                     # Environment variables (API keys, etc.)
+├── .env                     # Environment variables (if used)
 ├── codi.env                 # Custom environment config file
 ├── main.py                  # Main Streamlit application
 ├── requirements.txt         # Python dependencies
@@ -45,11 +45,11 @@ codi/
 │   ├── explainer.py         # Code explanation logic using HuggingFace API
 │   ├── history_manager.py   # Manages upload, explanation, and chat history
 │   ├── settings_manager.py  # Load/save user settings (voice, style, etc.)
-│   └── voice_assistant.py   # Text-to-speech logic for voice responses
-├── data/
-│   ├── fonts/
-│   │   └── DejaVuSans.ttf   # Font for multilingual PDF generation
-│   ├── audio/
-│   │   └── *.mp3            # Generated voice responses
-│   └── *.pdf                # Generated explanation/chat PDFs
+│   ├── voice_assistant.py   # Text-to-speech logic for voice responses
+│   └── data/                # Static and generated resources
+│       ├── fonts/
+│       │   └── DejaVuSans.ttf   # Font for multilingual PDF generation
+│       ├── audio/
+│       │   └── *.mp3            # Generated voice responses
+│       └── *.pdf                # Generated explanation/chat PDFs
 ```
