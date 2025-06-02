@@ -300,3 +300,4 @@ with tabs[1]:
                         st.markdown(href_pdf, unsafe_allow_html=True)
         else:
             st.info("No chat interactions yet.")
+ 

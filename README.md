@@ -47,7 +47,13 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 
 ## 📸 Screenshots
 
-> You can add screenshots in a `/screenshots` folder and embed them like this:
+> Screenshots are stored in the `/screenshots` folder and embedded below:
+
+### File Upload
+![File Upload](./assets/file_upload.png)
+
+### History
+![History](./assets/history.png)
 
 ---
 
