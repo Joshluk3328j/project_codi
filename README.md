@@ -11,6 +11,7 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 
 - 🧠 **Smart Code Explanation**  
   Uses Hugging Face’s **Mixtral** model to provide:
+
   - Reiterative explanation
   - Concise summary
   - In-depth breakdowns
@@ -23,6 +24,7 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 
 - 📥 **Export Your Insights**  
   Download explanations and chat interactions as:
+
   - 📄 PDF
   - 🔊 MP3 audio
   - 📝 Text files
@@ -34,14 +36,14 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 
 ## 🧰 Tech Stack
 
-| Tool | Purpose |
-|------|---------|
-| **Streamlit** | UI & frontend framework |
-| **Hugging Face Transformers** | LLM-powered code interpretation |
-| **Mixtral (Mistral AI)** | Smart, multi-expert transformer model |
-| **FPDF** | PDF generation |
-| **pyttsx3** | Text-to-speech (offline) |
-| **dotenv** | API credentials management |
+| Tool                          | Purpose                               |
+| ----------------------------- | ------------------------------------- |
+| **Streamlit**                 | UI & frontend framework               |
+| **Hugging Face Transformers** | LLM-powered code interpretation       |
+| **Mixtral (Mistral AI)**      | Smart, multi-expert transformer model |
+| **FPDF**                      | PDF generation                        |
+| **pyttsx3**                   | Text-to-speech (offline)              |
+| **dotenv**                    | API credentials management            |
 
 ---
 
@@ -54,28 +56,33 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 ## 📦 Installation
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/codi.git
 cd codi
 ```
 
 ### 2. Create and Activate a Virtual Environment
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
 ### 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Set Up Environment Variables
+
 ```bash
 HF_TOKEN=your_huggingface_api_token
 ```
 
 ### 5. Run the App
+
 ```bash
 streamlit run app.py
 ```
@@ -99,5 +106,9 @@ codi/
 │       │   └── DejaVuSans.ttf   # Font for multilingual PDF generation
 │       ├── audio/
 │       │   └── *.mp3            # Generated voice responses
+│       ├── chat_history.json
+│       ├── explanation_history.json
+│       ├── settings.json
+│       ├── upload_history.json
 │       └── *.pdf                # Generated explanation/chat PDFs
 ```
