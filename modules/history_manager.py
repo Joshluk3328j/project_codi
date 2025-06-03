@@ -75,8 +75,8 @@ class HistoryManager:
         """
         Deletes the upload history file if it exists.
         """
-        if os.path.exists(self.upload_history_path):
-            os.remove(self.upload_history_path)
+        with open(self.upload_history_path, "w", encoding="utf-8") as f:
+            json.dump([], f)
 
     # === Explanation History ===
     def save_explanation_history(self, data: list) -> None:
