@@ -47,7 +47,7 @@ Codi is an AI-powered Python code explainer designed to help developers, student
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshotsssssss
 
 ### File Upload
 ![File Upload](./Assets/file_upload.png)
